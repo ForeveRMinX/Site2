@@ -1,0 +1,244 @@
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Yiğitin Senin İçin Yaptı</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+height:100vh;
+overflow:hidden;
+background:linear-gradient(135deg,#020617,#111827,#1e293b);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* yıldızlar */
+.star{
+position:fixed;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:.2;transform:scale(1);}
+to{opacity:1;transform:scale(1.8);}
+}
+
+/* ana kutu */
+.box{
+width:90%;
+max-width:430px;
+padding:30px;
+border-radius:25px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(14px);
+box-shadow:0 0 40px rgba(255,255,255,.08);
+z-index:10;
+animation:fadein 1.5s ease;
+}
+
+@keyframes fadein{
+from{opacity:0;transform:translateY(30px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+h1{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.small{
+opacity:.8;
+font-size:14px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:14px;
+margin:7px 0;
+border:none;
+outline:none;
+border-radius:14px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:14px;
+font-size:16px;
+font-weight:bold;
+background:linear-gradient(90deg,#38bdf8,#a78bfa);
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+#icerik{
+margin-top:20px;
+font-size:22px;
+line-height:1.6;
+font-weight:bold;
+}
+
+/* kalpler */
+.heart{
+position:fixed;
+font-size:24px;
+animation:fall 5s linear forwards;
+z-index:2;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg);opacity:1;}
+100%{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Hoşgeldin Emirhan 🤍</h1>
+<div class="small">Yiğitin Senin İçin Yaptı</div>
+
+<input id="user" placeholder="Kullanıcı Adı">
+<input id="pass" type="password" placeholder="Şifre">
+
+<button onclick="giris()">Giriş Yap</button>
+
+<div id="icerik"></div>
+
+<button id="muzikBtn" onclick="muzikBaslat()" style="display:none;">🎵 Müziği Başlat</button>
+
+<audio id="muzik" src="sarki.mp3" preload="auto" loop></audio>
+
+</div>
+
+<script>
+
+/* yıldızlar */
+for(let i=0;i<120;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+s.style.animationDelay=Math.random()*2+"s";
+document.body.appendChild(s);
+}
+
+/* giriş */
+function giris(){
+
+let u=document.getElementById("user").value.trim().toLowerCase();
+let p=document.getElementById("pass").value.trim().toLowerCase();
+
+if(u==="emirhan" && p==="askim"){
+
+document.getElementById("muzikBtn").style.display="block";
+
+yaziAnimasyon();
+
+kalpYagdir();
+
+setInterval(patlat,1800);
+
+}else{
+
+document.getElementById("icerik").innerHTML="❌ Hatalı giriş";
+}
+
+}
+
+/* yazı efekti */
+function yaziAnimasyon(){
+
+let mesajlar=[
+"EMİRHAN ❤️",
+"SENİ ÇOK AMA ÇOK SEVİYORUM",
+"İYİ Kİ VARSIN",
+"BENİM EN GÜZEL ŞEYİMSİN ✨",
+"HER ŞEYİM 💖"
+];
+
+let alan=document.getElementById("icerik");
+alan.innerHTML="";
+
+let i=0;
+
+function yaz(){
+if(i<mesajlar.length){
+alan.innerHTML+=mesajlar[i]+"<br>";
+i++;
+setTimeout(yaz,1200);
+}
+}
+
+yaz();
+
+}
+
+/* müzik */
+function muzikBaslat(){
+let m=document.getElementById("muzik");
+m.volume=1;
+m.play().catch(()=>alert("Müzik açılamadı"));
+}
+
+/* kalp yağmuru */
+function kalpYagdir(){
+
+setInterval(()=>{
+
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(18+Math.random()*25)+"px";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),5000);
+
+},180);
+
+}
+
+/* havai fişek */
+function patlat(){
+
+confetti({
+particleCount:180,
+spread:120,
+origin:{y:0.6}
+});
+
+}
+</script>
+
+</body>
+</html>
